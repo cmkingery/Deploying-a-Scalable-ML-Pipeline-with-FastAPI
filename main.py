@@ -3,6 +3,7 @@ import os
 import pandas as pd
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
+from pathlib import Path
 
 from ml.data import apply_label, process_data
 from ml.model import inference, load_model
@@ -26,10 +27,12 @@ class Data(BaseModel):
     hours_per_week: int = Field(..., example=40, alias="hours-per-week")
     native_country: str = Field(..., example="United-States", alias="native-country")
 
-path = "/Users/calvinkingery/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/model/encoder.pkl" # TODO: enter the path for the saved encoder 
+base_directory = Path(__file__).resolve().parent
+
+path = base_directory / "model" / "encoder.pkl" # TODO: enter the path for the saved encoder 
 encoder = load_model(path)
 
-path = "/Users/calvinkingery/Deploying-a-Scalable-ML-Pipeline-with-FastAPI/model/model.pkl" # TODO: enter the path for the saved model 
+path = base_directory / "model" / "model.pkl" # TODO: enter the path for the saved model 
 model = load_model(path)
 
 # TODO: create a RESTful API using FastAPI
